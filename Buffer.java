@@ -16,21 +16,35 @@ public class Buffer{
     }
     
     public synchronized boolean insert(int workpiece){
-        if (isFull()) return false;
+        if (isFull()){
+            
+            try {wait();}
+            catch (InterruptedException e) {}
+            
+            return false;
+        }
         // not full:
         buffer[high] = workpiece;
         high = high++ % N;
         count++;
+        if(count == 1) notifyAll(); // Buffer war zuvor leer
         return true;
     }
     
     public synchronized int remove(){
       int workpiece;
-      if (isEmpty()) return -1;
+      if (isEmpty()){
+          
+          try {wait();}
+          catch (InterruptedException e) {}
+          
+          return -1;
+      }
       // not empty:
       workpiece = buffer[low];
       low = low++ % N;
       count--;
+      if(count == N-1) notifyAll(); // Buffer war zuvor voll
       return workpiece;
     }
     
