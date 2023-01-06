@@ -1,6 +1,6 @@
 /**
  * @author (HerbertWenisch)
- * @version (04.11.21)
+ * @version (04.12.21)
  */
 public class Logger{
         
